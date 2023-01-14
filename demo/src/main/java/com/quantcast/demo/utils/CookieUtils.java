@@ -24,34 +24,6 @@ public class CookieUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(CookieUtils.class);
 	
-    /*public static String getFilePathFromArguments(String[] args){
-        String filePath;
-        if(args.length==0)
-            throw new RuntimeException("File name is not provided");
-        filePath=args[0];
-        if (!isFileTypeValid(filePath)){
-            throw new RuntimeException("Unsupported file type");
-        }
-        if(!isFilePresent(filePath))
-        	throw new RuntimeException("File doesn't exist");
-        return filePath;
-    }
-    
-    public static String getDateFromArguments(String[] args){
-        String date;
-        if (args.length<=1 || !args[1].equals("-d")){
-            throw new RuntimeException("Invalid input arguments");
-        }
-        try {
-            date = args[2];
-        } catch (Exception e){
-            throw new RuntimeException("Date is not provided");
-        }
-        if (!isDateValid(date)){
-            throw new RuntimeException("Unsupported Date format");
-        }
-        return date;
-    }*/
     public static CookieCLIObject getCookieCLIObject(String[] args) throws CookieException {
         Options options = new Options();
         Option dateOption = new Option("d", true, "Date for which most active cookies is needed");
@@ -81,22 +53,7 @@ public class CookieUtils {
         }
         return cliObj;
     }
-	/*
-     * Check if date is valid otherwise throw an Exception
-     * @param dateString
-     * @return
-     
-    
-    public static boolean isDateValid(String dateStr) {
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(dateStr);
-        } catch (Exception e) {
-        	return false;
-        }
-        return true;
-    }*/
+
 	/**
      * Check if file exits otherwise throw and Exception
      * @param fileName
@@ -130,7 +87,7 @@ public class CookieUtils {
         Date startDate = null;
         try {
             startDate = df.parse(startDateString);
-        } catch (java.text.ParseException e) {
+        } catch (Exception e) {
             logger.error("error while parsing date string ",e);
             throw new CookieException("date format is invalid");
         }
