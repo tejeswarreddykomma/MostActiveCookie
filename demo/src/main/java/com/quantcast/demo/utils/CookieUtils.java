@@ -6,8 +6,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.quantcast.demo.exception.CookieException;
 import com.quantcast.demo.model.Cookie;
@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 public class CookieUtils {
-	
-	private static Logger logger = LoggerFactory.getLogger(CookieUtils.class);
-	
+
+    private static final Logger logger = LogManager.getLogger(CookieUtils.class);
+
     public static CookieCLIObject getCookieCLIObject(String[] args) throws CookieException {
         Options options = new Options();
         Option dateOption = new Option("d", true, "Date for which most active cookies is needed");
@@ -34,27 +34,27 @@ public class CookieUtils {
         CookieCLIObject cliObj;
         String errorMessage=null;
         try {
-        	CommandLine commandLine=parser.parse(options, args);
-        	String date=commandLine.getOptionValue("d");
-        	String[] remainingArgs=commandLine.getArgs();
-        	String filePath=remainingArgs[0];
-        	if(filePath==null)
-        		errorMessage="File Path is not provided";
-        	isFilePresent(filePath);
-        	isFileTypeValid(filePath);
-        	cliObj=new CookieCLIObject(filePath, date);
+            CommandLine commandLine=parser.parse(options, args);
+            String date=commandLine.getOptionValue("d");
+            String[] remainingArgs=commandLine.getArgs();
+            String filePath=remainingArgs[0];
+            if(filePath==null)
+                errorMessage="File Path is not provided";
+            isFilePresent(filePath);
+            isFileTypeValid(filePath);
+            cliObj=new CookieCLIObject(filePath, date);
         }catch(ParseException e) {
-        	throw new CookieException("Parse Exception");
+            throw new CookieException("Parse Exception");
         }catch(ArrayIndexOutOfBoundsException e) {
-        	throw new CookieException("Date in Not Provided");
+            throw new CookieException("Date in Not Provided");
         }
         if(errorMessage!=null) {
-        	throw new CookieException(errorMessage);
+            throw new CookieException(errorMessage);
         }
         return cliObj;
     }
 
-	/**
+    /**
      * Check if file exits otherwise throw and Exception
      * @param fileName
      * @return
